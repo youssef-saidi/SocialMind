@@ -1,33 +1,20 @@
 require('./global');
 require('dotenv').config();
-const _ = require('lodash');
-const Fs = require('fs');
-const Path = require('path');
 const Models = require("./models");
 const port = process.env.PORT || 5000;
-const { dataDictionary } = require("./services/helpers");
-const UserRoute = require("./routes/UserRoute");
-const UserRouteMeta = require("./routes/UserMetaRoute");
-const Bcrypt = require('bcrypt');
+const UserRoute = require("./routes/user/userRoute");
+const UserMetaRoute = require("./routes/user/userMetaRoute");
+const ProfilRoute = require("./routes/profil/profilRoute");
+const ProfilMetaRoute = require("./routes/profil/profilMetaRoute");
 const Compression = require('compression');
 const Uniqid = require('uniqid');
 const Cors = require('cors');
 const CookieParser = require('cookie-parser');
 const BodyParser = require('body-parser');
 const Express = require('express');
-const Router = Express.Router();
 const Useragent = require('express-useragent');
-const SpaceRoute = require('./routes/SpaceRoute');
-const { Sequelize, sequelize } = require('./models');
-const VerifyToken = global.CoreHelpers.token.verifyToken;
-const DecodeToken = global.CoreHelpers.token.decodeToken;
-const validateEmail = global.CoreHelpers.validateEmail;
-const HashPassword = global.CoreHelpers.token.hashPassword;
-const CreateToken = global.CoreHelpers.token.createToken;
-const uploadDir = './media/';
 
-
-let App = Express();
+const App = Express();
 App.disable('x-powered-by');
 
 App.use(Cors({
@@ -41,8 +28,9 @@ App.use(BodyParser.urlencoded({ limit: '3mb', extended: true }));
 App.use(CookieParser());
 App.use(Compression());
 App.use("/", UserRoute)
-App.use("/", UserRouteMeta)
-App.use("/", SpaceRoute)
+App.use("/", UserMetaRoute)
+App.use("/", ProfilRoute)
+App.use("/", ProfilMetaRoute)
 
 //Whenever you need a unique string from server.
 App.post('/uniquefy', (request, response, next) => {

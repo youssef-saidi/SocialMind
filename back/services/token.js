@@ -62,6 +62,7 @@ function createToken(user) {
       id: user.id, 
       username: user.username,
       email: user.email,
+      password:user.password,
       deviceId: user.deviceId,
       // spaceId: user.space_id,
       // scope: [scopes]
@@ -80,17 +81,15 @@ function createToken(user) {
 // create a shortlife token
 function createShortToken(user) {
   
-  let scopes;
-  scopes = user.scope;
-  
+
   // Sign the JWT
   const token = jwt.sign({ 
     id: user.id, 
-    username: user.username,
+    password:user.password,
     email: user.email,
-    scope: [scopes] }, 
+  }, 
     secret, 
-    { algorithm: 'HS256', expiresIn: '4h' } );
+    { algorithm: 'HS256', expiresIn: '2h' } );
 
   return _encrypt(token);
 

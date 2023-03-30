@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataType) => {
-    const UserMeta = sequelize.define("UserMeta", {
+    const ProfilMeta = sequelize.define("ProfilMeta", {
         id: {
             type: DataType.BIGINT(60),
             autoIncrement: true,
             primaryKey: true
         },
-          user_id: {
+         profil_id: {
             type: DataType.BIGINT(60),
             allowNull: false,
         },
@@ -18,10 +18,11 @@ module.exports = (sequelize, DataType) => {
             allowNull: true
         }
 
-    });
-    UserMeta.associate = (models) => {
-        UserMeta.belongsTo(models.User, {foreignKey: 'id',onDelete: 'CASCADE', hooks: true});
     }
+   );
+   ProfilMeta.associate = (models) => {
+    ProfilMeta.belongsTo(models.Profil, {foreignKey: 'id',onDelete: 'CASCADE', hooks: true});
+}
 
-    return UserMeta
+    return ProfilMeta
 }

@@ -28,6 +28,7 @@
     "mime-types": "^2.1.35",
     "moment": "^2.29.4",
     "mysql2": "^2.3.3",
+    "nodemailer": "^6.9.0",
     "nodemon": "^2.0.20",
     "redis": "^4.3.0",
     "sequelize": "^6.20.1",

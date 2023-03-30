@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataType) => {
-    const UserMeta = sequelize.define("UserMeta", {
+    const FeatureMeta = sequelize.define("FeatureMeta", {
         id: {
             type: DataType.BIGINT(60),
             autoIncrement: true,
             primaryKey: true
         },
-          user_id: {
+          feature_id: {
             type: DataType.BIGINT(60),
             allowNull: false,
         },
@@ -19,9 +19,9 @@ module.exports = (sequelize, DataType) => {
         }
 
     });
-    UserMeta.associate = (models) => {
-        UserMeta.belongsTo(models.User, {foreignKey: 'id',onDelete: 'CASCADE', hooks: true});
+    FeatureMeta.associate = (models) => {
+        FeatureMeta.belongsTo(models.Feature, {foreignKey: 'id'});
     }
 
-    return UserMeta
+    return FeatureMeta
 }

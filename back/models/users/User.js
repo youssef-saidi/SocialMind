@@ -13,6 +13,12 @@ module.exports = (sequelize, DataType) => {
             type: DataType.STRING(250),
             allowNull: false
         },
+        profil_number: {
+            type:DataType.INTEGER,
+            allowNull: false,
+            defaultValue: 0
+
+        },
         user_status: {
             type: DataType.BOOLEAN,
             allowNull: false
@@ -21,40 +27,15 @@ module.exports = (sequelize, DataType) => {
             type: DataType.BOOLEAN,
             allowNull: false
         },
-    },{
-        timestamps: true,
-        classMethods: {
-            associate: (models) => {
-
-            }
-        },
-        instanceMethods: {
-            toJSON: () => {
-
-            }
-        },
-        hooks: {
-            afterFind: function( result ) {
-                if(
-                    result &&
-                    result._options &&
-                    result._options.includeValidated &&
-                    result.UserMeta
-                ) {
-                    const UserMeta = result.UserMeta;
-                    result.UserMeta = {};
-
-                    UserMeta.map( m => result.UserMeta[m.dataValues.meta_key] = m.dataValues.meta_value);
-
-                    return result.setDataValue('UserMeta', result.UserMeta)
+    }
+    );
+    User.associate = (models) => {
+        User.hasMany(models.UserMeta, {foreignKey: 'user_id'});
+        User.hasMany(models.Profil, {foreignKey: 'user_id'});
+        User.hasMany(models.Basket, {foreignKey: 'user_id'});
 
 
-                }
-
-                return result;
-            }
-        }
-    });
+    }
     return User
 
 }

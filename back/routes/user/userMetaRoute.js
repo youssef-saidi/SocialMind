@@ -1,5 +1,6 @@
 const UserMetaRoute = require("express").Router()
-const UserMetaController = require("../controllers/UserMetaController")
+const UserMetaController = require("../../controllers/user/userMetaController")
+const ValidateToken=require('../../services/validateToken')
 
 
 // UserMetaRoute.get("/getUsermeta/:id", (req, res, next) => {
@@ -17,7 +18,7 @@ const UserMetaController = require("../controllers/UserMetaController")
 
 // })
 
-UserMetaRoute.post("/updateUserMeta", (request, response, next) => {
+UserMetaRoute.post("/updateUserMeta",ValidateToken ,(request, response, next) => {
 	try {
 		const update=UserMetaController.changeUserMeta(request.headers.token,request.body.lastname, request.body.firstname )
 		response.status(200).json(update);

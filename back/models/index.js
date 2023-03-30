@@ -1,10 +1,10 @@
-
+const _ = require('lodash');
 let fs = require("fs"),
 path = require("path"),
 Sequelize = require("sequelize"),
 basename = path.basename(module.filename),
 db = {};
-sequelize = new Sequelize(
+let sequelize = new Sequelize(
 	process.env.DB_NAME,
 	process.env.DB_USER,
 	process.env.DB_PASS, {
@@ -59,7 +59,7 @@ sortDir(__dirname)
 
 files.forEach((file) => {
   const model = require(file)(sequelize, Sequelize.DataTypes)
-  db[model.name] = model
+if(!_.isUndefined(model)) db[model.name] = model
 })
 
 Object.keys(db).forEach((modelName) => {
@@ -72,20 +72,28 @@ db.sequelize = sequelize
 db.Sequelize = Sequelize
 
 
-db.sequelize.sync().then(() => {
+db.sequelize.sync();
+// .then(() => {
+// 	// db.User.hasMany(db.UserMeta, {foreignKey: 'user_id'});
+// 	// db.UserMeta.belongsTo(db.User, {foreignKey: 'id'});
 
-	db.User.hasMany(db.UserMeta, {foreignKey: 'user_id'});
-	db.UserMeta.belongsTo(db.User, {foreignKey: 'id'});
-
-	db.Space.hasMany(db.SpaceMeta, {foreignKey: 'space_id'});
-	db.SpaceMeta.belongsTo(db.Space, {foreignKey: 'id'});
+// 	// db.User.hasMany(db.Profile, {foreignKey: 'profile_id'});
+// 	// db.Profile.belongsTo(db.User, {foreignKey: 'id'});
 
 
-	// db.Posts.hasMany(db.PostMeta, {foreignKey: 'post_id'});
-	// db.PostMeta.belongsTo(db.Posts, {foreignKey: 'id'});
-	// db.Posts.hasMany(db.PostsSpaceRelationships, {foreignKey: 'post_id'});
-	// db.PostsSpaceRelationships.belongsTo(db.Posts, {foreignKey: 'id'});
+// 	// db.Profile.hasMany(db.ProfileMeta, {foreignKey: 'profile_id'});
+// 	// db.ProfileMeta.belongsTo(db.Profile, {foreignKey: 'id'});
 
-});
+
+// 	// db.Space.hasMany(db.SpaceMeta, {foreignKey: 'space_id'});
+// 	// db.SpaceMeta.belongsTo(db.Space, {foreignKey: 'id'});
+
+
+// 	// db.Posts.hasMany(db.PostMeta, {foreignKey: 'post_id'});
+// 	// db.PostMeta.belongsTo(db.Posts, {foreignKey: 'id'});
+// 	// db.Posts.hasMany(db.PostsSpaceRelationships, {foreignKey: 'post_id'});
+// 	// db.PostsSpaceRelationships.belongsTo(db.Posts, {foreignKey: 'id'});
+
+// });
 
 module.exports = db
